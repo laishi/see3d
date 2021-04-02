@@ -226,7 +226,7 @@ function selectBox(id) {
 
 
 var eyes3d = document.querySelector(".eyes3d")
-var host = "http://" + document.location.host + document.location.pathname
+var host = "https://" + document.location.host + document.location.pathname
 boxes.forEach(b => {
     let id = b.id;
     b.addEventListener('click', e => {
