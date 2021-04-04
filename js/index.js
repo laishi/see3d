@@ -1,6 +1,4 @@
-
-var works = [
-    {
+var works = [{
         "id": "x50",
         "index": 1,
         "type": "demo",
@@ -226,7 +224,7 @@ function selectBox(id) {
 
 
 var eyes3d = document.querySelector(".eyes3d")
-var host = "https://" + document.location.host + document.location.pathname
+var host = "http://" + document.location.host + document.location.pathname
 boxes.forEach(b => {
     let id = b.id;
     b.addEventListener('click', e => {
@@ -244,7 +242,7 @@ boxes.forEach(b => {
         }
 
 
-        putIframe(eyes3d, id, false)
+        creatIframe(eyes3d, id)
 
         history.pushState({ id }, `case: ${id}`, `case/${id}`)
 
@@ -252,32 +250,66 @@ boxes.forEach(b => {
     });
 });
 
+// var iframeTag
 
-function putIframe(parent, src, remove) {
-    if (remove) {
-        parent.textContent = ""
-    } else {
-        var iframeTag = document.createElement("iframe");
-        iframeTag.src = host + "case/" + src
-        parent.appendChild(iframeTag)
-    }
+// function putIframe(parent, src, remove) {
+//     if (remove) {
+//         if (parent.className == "eyes3d hasIframe") {
+//             setTimeout(() => {
+//                 parent.children[0].style.display = "none";
+//             }, 600);
+//         } else {
+//             parent.children[0].style.display = "block";
+//         }
+
+//     } else {
+//         parent.textContent = ""
+//         iframeTag = document.createElement("iframe");
+//         iframeTag.src = host + "case/" + src
+//         parent.appendChild(iframeTag)
+//         parent.classList.toggle("hasIframe")
+//     }
+
+// }
+
+
+
+
+function creatIframe(parent, src) {
+    parent.textContent = ""
+    var iframeTag = document.createElement("iframe");
+    iframeTag.src = host + "case/" + src
+    parent.appendChild(iframeTag)
+    parent.classList.toggle("hasIframe")
 
 }
 
+function toggleIframe() {
 
+    if (pages.style.transform == "translateX(0vw)") {
+        eyes3d.children[0].style.display = "block";
+    } else {
+        setTimeout(() => {
+            eyes3d.children[0].style.display = "none";
+        }, 600);
+    }
 
+}
+// pages.style.transform
 
+// pages.style.transform
+// "translateX(100vw)"
 
 
 window.addEventListener('popstate', e => {
+
     selectBox(e.state.id);
+    toggleIframe()
     if (e.state.id == null) {
         pages.style.transform = "translateX(0vw)"
         history.replaceState({ id: null }, 'home state', host);
-        putIframe(eyes3d, e.state.id, true)
-    }else {
-        putIframe(eyes3d, e.state.id, false)
-        console.log("e.state.id  "+e.state.id)
+    } else {
+        console.log("e.state.id  " + e.state.id)
     }
 
 
@@ -300,10 +332,10 @@ history.replaceState({ id: null }, 'home state', host);
 
 
 
-closeBtn.addEventListener("click", function (event) {
+closeBtn.addEventListener("click", function(event) {
     history.replaceState({ id: null }, 'home state', host);
     pages.style.transform = "translate(0vw, 0px)"
-    putIframe(eyes3d, "#", true)
+    toggleIframe()
 }, false);
 
 
@@ -377,7 +409,7 @@ var scrollbar = Scrollbar.init(document.body, {
 
 Scrollbar.use(window.OverscrollPlugin);
 
-scrollbar.addListener(function (status) {
+scrollbar.addListener(function(status) {
     var currentScroll = status.offset.y
     if (lastScroll < currentScroll) {
         direction = "DOWN"
@@ -404,7 +436,7 @@ function gridStagger(targets, action, reverse, interval, delay) {
 
     function fire() {
         for (var i = 0, maxi = targets.length; i < maxi; i++) {
-            (function () {
+            (function() {
 
 
                 if (reverse == "first") {
@@ -415,7 +447,7 @@ function gridStagger(targets, action, reverse, interval, delay) {
                     var target = targets[targets.length - 1 - i]
                 }
 
-                setTimeout(function () {
+                setTimeout(function() {
                     target.style.transform = "translateY(" + action + "px)"
                 }, interval * i / 100)
             })()
