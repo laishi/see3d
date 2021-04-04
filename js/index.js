@@ -328,7 +328,7 @@ window.addEventListener('popstate', e => {
     }
 });
 
-history.replaceState({ id: null }, 'home state', host);
+// history.replaceState({ id: null }, 'home state', host);
 
 
 
